@@ -1,11 +1,7 @@
 from time import sleep
+from nobody import nobody
 
 __author__ = "Sahand Saba"
-
-
-def nobody():
-    while True:
-        yield False
 
 
 # The term "troll" is taken from Knuth's choice of word

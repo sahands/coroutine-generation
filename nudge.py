@@ -49,4 +49,4 @@ def cyclic_test(n):
 
 
 if __name__ == '__main__':
-    cyclic_test(3)
+    cyclic_test(5)
