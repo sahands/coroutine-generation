@@ -1,3 +1,4 @@
+from __future__ import print_function
 from time import sleep
 from nobody import nobody
 
@@ -19,15 +20,23 @@ def sjt(pi, inv, i, coroutines):
 
 
 def setup(n):
-    # Pad pi with n + 2, so that pi[i] will always be < the two ends.
-    pi = [n + 2] + [i for i in range(1, n + 1)] + [n + 2]
+    # Start with the identity permutation
+    pi = list(range(1, n + 1))
+
+    # Pad pi with n + 2 on both sides, so
+    # that pi[i] will always be < the two ends.
+    pi = [n + 2] + pi + [n + 2]
     inv = pi[:-1]
-    # nobody simply continuously yields False. By adding a "nobody" generator
-    # at both ends of coroutines, False is autmatically yieded by sjt when needed.
+
     coroutines = [nobody()]
-    coroutines.extend(sjt(pi, inv, i + 1, coroutines) for i in range(n))
+    coroutines.extend(
+            sjt(pi, inv, i, coroutines)
+            for i in range(1, n + 1)
+            )
     coroutines += [nobody()]
-    # The lead coroutine will be the item n in the permutation
+
+    # The lead coroutine will be the
+    # item n in the permutation
     lead_coroutine = coroutines[-2]
     return pi, lead_coroutine
 
@@ -43,7 +52,7 @@ def cyclic_test(n):
     pi, lead_coroutine = setup(n)
     c = 0
     while True:
-        print('Output: ', ''.join(str(x) for x in pi[1:-1]))
+        print(''.join(str(x) for x in pi[1:-1]))
         c += 1
         if not next(lead_coroutine):
             print('-------')

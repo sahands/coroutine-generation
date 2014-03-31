@@ -5,21 +5,19 @@ __author__ = "Sahand Saba"
 __email__ = "sahands@gmail.com"
 
 
-def troll(n, k, a, trolls):
-    next_up = trolls[k + 1] if k + 1 < n else nobody()
-    next_down = trolls[k + 2] if k + 2 < n else nobody()
+def zigzag(n, k, a, coroutines):
+    next_up = coroutines[k + 1] if k + 1 < n else nobody()
+    next_down = coroutines[k + 2] if k + 2 < n else nobody()
 
     if a[k] == 1 or k % 2 == 1:
         next_up, next_down = next_down, next_up
 
     while True:
-        # awake
         while next(next_up):
             yield True
         a[k] = 1 - a[k]
         yield True
 
-        # asleep
         while next(next_down):
             yield True
         yield False
@@ -28,12 +26,14 @@ def troll(n, k, a, trolls):
 
 
 def setup(n):
-    # Initialize a to be the first n bits in 000111000111000111...
+    # Initialize a to be the first n bits
+    # in 000111000111000111...
     a = ([0, 0, 0, 1, 1, 1] * (n // 6 + 1))[:n]
-    trolls = []
-    trolls.extend(troll(n, k, a, trolls) for k in range(n))
-    trolls[0]
-    return a, trolls[0]
+    coroutines = []
+    coroutines.extend(zigzag(n, k, a, coroutines)
+            for k in range(n))
+    coroutines[0]
+    return a, coroutines[0]
 
 
 def cyclic_test(n):
