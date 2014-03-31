@@ -1,63 +1,61 @@
-    from time import sleep
-    from nobody import nobody
+from time import sleep
+from nobody import nobody
 
-    __author__ = "Sahand Saba"
-
-
-    def sjt(pi, inv, i, coroutines):
-        # Directoin. -1 is descending, +1 is ascending.
-        d = -1
-        while True:
-            # j is the position of the current coroutine
-            j = inv[i]
-            if pi[j] < pi[j + d]:
-                d = -d
-                yield next(coroutines[i - 1])
-            else:
-                pi[j], pi[j + d] = pi[j + d], pi[j]
-                inv[i] += d
-                inv[pi[j]] -= d
-                yield True
+__author__ = "Sahand Saba"
 
 
-    def setup(n):
-        # Pad pi with n + 2, so that pi[i] will always be < the two ends.
-        pi = [n + 2] + [i for i in range(1, n + 1)] + [n + 2]
-        inv = pi[:-1]
-        # nobody simply continuously yields False. By adding a "nobody" generator
-        # at both ends of coroutines, False is autmatically yieded by sjt when needed.
-        coroutines = [nobody()]
-        coroutines.extend(sjt(pi, inv, i + 1, coroutines) for i in range(n))
-        coroutines += [nobody()]
-        # The lead coroutine will be the item n in the permutation
-        lead_coroutine = coroutines[-2]
-        return pi, lead_coroutine
+def sjt(pi, inv, i, coroutines):
+    d = -1
+    while True:
+        j = inv[i]
+        if pi[j] < pi[j + d]:
+            d = -d
+            yield next(coroutines[i - 1])
+        else:
+            pi[j], pi[j + d] = pi[j + d], pi[j]
+            inv[i] += d
+            inv[pi[j]] -= d
+            yield True
 
 
-    def permutations(n):
-        pi, lead_coroutine = setup(n)
+def setup(n):
+    # Pad pi with n + 2, so that pi[i] will always be < the two ends.
+    pi = [n + 2] + [i for i in range(1, n + 1)] + [n + 2]
+    inv = pi[:-1]
+    # nobody simply continuously yields False. By adding a "nobody" generator
+    # at both ends of coroutines, False is autmatically yieded by sjt when needed.
+    coroutines = [nobody()]
+    coroutines.extend(sjt(pi, inv, i + 1, coroutines) for i in range(n))
+    coroutines += [nobody()]
+    # The lead coroutine will be the item n in the permutation
+    lead_coroutine = coroutines[-2]
+    return pi, lead_coroutine
+
+
+def permutations(n):
+    pi, lead_coroutine = setup(n)
+    yield pi[1:-1]
+    while next(lead_coroutine):
         yield pi[1:-1]
-        while next(lead_coroutine):
-            yield pi[1:-1]
 
 
-    def cyclic_test(n):
-        pi, lead_coroutine = setup(n)
-        c = 0
-        while True:
-            print('Output: ', ''.join(str(x) for x in pi[1:-1]))
-            c += 1
-            if not next(lead_coroutine):
-                print('-------')
-                print(c)
-                print('-------')
-                sleep(1)
-                c = 0
+def cyclic_test(n):
+    pi, lead_coroutine = setup(n)
+    c = 0
+    while True:
+        print('Output: ', ''.join(str(x) for x in pi[1:-1]))
+        c += 1
+        if not next(lead_coroutine):
+            print('-------')
+            print(c)
+            print('-------')
+            sleep(1)
+            c = 0
 
 
-    if __name__ == '__main__':
-        print('\n'.join(''.join(str(x) for x in pi) for pi in permutations(1)))
-        print('\n'.join(''.join(str(x) for x in pi) for pi in permutations(2)))
-        print('\n'.join(''.join(str(x) for x in pi) for pi in permutations(3)))
-        print('\n'.join(''.join(str(x) for x in pi) for pi in permutations(4)))
-        cyclic_test(3)
+if __name__ == '__main__':
+    print('\n'.join(''.join(str(x) for x in pi) for pi in permutations(1)))
+    print('\n'.join(''.join(str(x) for x in pi) for pi in permutations(2)))
+    print('\n'.join(''.join(str(x) for x in pi) for pi in permutations(3)))
+    print('\n'.join(''.join(str(x) for x in pi) for pi in permutations(4)))
+    cyclic_test(3)
