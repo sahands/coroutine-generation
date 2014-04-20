@@ -29,14 +29,9 @@ def multiradix_recursive(M):
 
 
 def multiradix_coroutine_core(M):
-    """
-    Generates all multiradix numbers a[m-1] ... a[0] such that
-    0 <= a[i] < M[i], in lexicographic order using coroutines.
-    """
-    # The idea is simple here: create a coroutine gen(i)
-    # whose task is to check if a[i] < M[i] - 1 in which
-    # case just increase a[i] and yield a[i] == M[i]
-    # otherwise set a[i] = 0 and yield gen(i - 1)
+    # The basic idea is simple here: create a coroutine gen(i) whose task is to
+    # check if a[i] < M[i] - 1 in which case just increase a[i] and yield True,
+    # otherwise set a[i] = 0 and yield gen(i - 1).
     n = len(M)
     M = [0] + M
     a = [0] * (n + 1)
@@ -57,6 +52,10 @@ def multiradix_coroutine_core(M):
 
 
 def multiradix_coroutine(M):
+    """
+    Generates all multiradix numbers a[m-1] ... a[0] such that
+    0 <= a[i] < M[i], in lexicographic order using coroutines.
+    """
     a, lead = multiradix_coroutine_core(M)
     while next(lead):
         yield a
