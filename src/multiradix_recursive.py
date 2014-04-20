@@ -1,5 +1,7 @@
 from __future__ import print_function
 
+from utils import log_execution_time
+
 __author__ = "Sahand Saba"
 
 
@@ -24,7 +26,19 @@ def multiradix(M):
     return gen(n - 1)
 
 
-if __name__ == '__main__':
+@log_execution_time
+def run_test():
+    M = [10] * 7
+    for a in multiradix(M):
+        pass
+        # print(''.join(str(x) for x in a))
+
+
+def basic_test():
     M = [3, 2, 3]
     for a in multiradix(M):
         print(''.join(str(x) for x in a))
+
+
+if __name__ == '__main__':
+    run_test()
