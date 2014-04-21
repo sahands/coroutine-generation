@@ -9,18 +9,22 @@ __author__ = "Sahand Saba"
 
 def multiradix_recursive(M):
     """
-    Generates all multiradix numbers a[m-1] ... a[0] such that
+    Generates all multi-radix numbers a[m-1] ... a[0] such that
     0 <= a[i] < M[i], in lexicographic order using a recursive algorithm.
     """
     n = len(M)
     a = [0] * n
 
+    # This recursive coroutine will yield all multi-radix number of length
+    # i + 1.
     def gen(i):
         if i < 0:
             yield a
             return
 
         for __ in gen(i - 1):
+            # Extend each multi-radix number of length i with all possible
+            # 0 <= x < M[i] to get a multi-radix number of length i + 1.
             for x in range(M[i]):
                 a[i] = x
                 yield a
@@ -53,7 +57,7 @@ def multiradix_coroutine_core(M):
 
 def multiradix_coroutine(M):
     """
-    Generates all multiradix numbers a[m-1] ... a[0] such that
+    Generates all multi-radix numbers a[m-1] ... a[0] such that
     0 <= a[i] < M[i], in lexicographic order using coroutines.
     """
     a, lead = multiradix_coroutine_core(M)
@@ -63,7 +67,7 @@ def multiradix_coroutine(M):
 
 def multiradix_iterative(M):
     """
-    Generates all multiradix numbers a[m-1] ... a[0] such that
+    Generates all multi-radix numbers a[m-1] ... a[0] such that
     0 <= a[i] < M[i], in lexicographic order using an iterative algorithm.
     """
     n = len(M)
@@ -85,7 +89,7 @@ def multiradix_iterative(M):
 
 
 @log_execution_time
-def run_test(generator):
+def test_generator(generator):
     M = [10] * 7
     for a in generator(M):
         pass
@@ -97,10 +101,14 @@ def basic_test(generator):
         print(''.join(str(x) for x in a))
 
 
-if __name__ == '__main__':
+def run_tests():
     for generator in [multiradix_coroutine,
                       multiradix_iterative,
                       multiradix_recursive]:
         print('Testing {}:'.format(generator.__name__))
-        run_test(generator)
+        test_generator(generator)
         print()
+
+
+if __name__ == '__main__':
+    run_tests()
