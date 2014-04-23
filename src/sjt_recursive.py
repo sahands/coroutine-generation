@@ -1,12 +1,9 @@
-def sjt(a):
-    if a:
-        r = list(range(len(a)))
-        for pi in sjt(a[:-1]):
+def permutations(n):
+    if n:
+        r = list(range(n))
+        for pi in permutations(n - 1):
             for i in r:
-                yield pi[i:] + [a[-1]] + pi[:i]
+                yield pi[i:] + [n] + pi[:i]
             r.reverse()
     else:
         yield []
-
-for pi in sjt([1, 2, 3]):
-    print(pi)

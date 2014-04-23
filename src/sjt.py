@@ -2,8 +2,11 @@ from __future__ import print_function
 
 from time import sleep
 
-from sjt_coroutine import permutations
+
+from sjt_coroutine import permutations as sjtc
 from sjt_coroutine import setup
+from sjt_recursive import permutations as sjtr
+from utils import log_execution_time
 
 __author__ = "Sahand Saba"
 
@@ -22,9 +25,23 @@ def cyclic_test(n):
             c = 0
 
 
-if __name__ == '__main__':
-    print('\n'.join(''.join(str(x) for x in pi) for pi in permutations(1)))
-    print('\n'.join(''.join(str(x) for x in pi) for pi in permutations(2)))
-    print('\n'.join(''.join(str(x) for x in pi) for pi in permutations(3)))
-    print('\n'.join(''.join(str(x) for x in pi) for pi in permutations(4)))
+@log_execution_time
+def test_generator(gen):
+    for __ in gen(10):
+        pass
+
+
+def main():
+    print('Testing coroutine-based algorithm:')
+    test_generator(sjtc)
+    print('Testing recursive algorithm:')
+    test_generator(sjtr)
+    print('\n'.join(''.join(str(x) for x in pi) for pi in sjtc(1)))
+    print('\n'.join(''.join(str(x) for x in pi) for pi in sjtc(2)))
+    print('\n'.join(''.join(str(x) for x in pi) for pi in sjtc(3)))
+    print('\n'.join(''.join(str(x) for x in pi) for pi in sjtc(4)))
     cyclic_test(3)
+
+
+if __name__ == '__main__':
+    main()

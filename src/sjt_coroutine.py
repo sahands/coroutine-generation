@@ -17,9 +17,9 @@ def troll(pi, inv, i):
 
 
 def setup(n):
-    # Start with the identity permutation with n + 2 padded on both sides
+    # Start with the identity permutation with n + 1 padded on both sides
     pi = list(range(1, n + 1))
-    pi = [n + 2] + pi + [n + 2]
+    pi = [n + 1] + pi + [n + 1]
     # The inverse permutation starts as the identity as well.
     inv = pi[:-1]
 
