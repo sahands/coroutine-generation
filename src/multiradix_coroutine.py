@@ -6,7 +6,7 @@ def troll(M, n, a, i):
     while True:
         if a[i] == M[i] - 1:
             a[i] = 0
-            yield next(previous)  # Poke the next troll
+            yield next(previous)  # Poke the previous troll
         else:
             a[i] += 1
             yield True
