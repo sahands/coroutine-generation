@@ -1,6 +1,7 @@
 from __future__ import print_function
 
 from functools import reduce
+import itertools
 from operator import mul
 
 from nobody import nobody
@@ -10,10 +11,6 @@ __author__ = "Sahand Saba"
 
 
 def multiradix_recursive_core(M, n, a, i):
-    """
-    Generates all multi-radix numbers a[0] ... a[n - 1] such that
-    0 <= a[i] < M[i], in lexicographic order using a recursive algorithm.
-    """
     if i < 0:
         yield a
         return
@@ -32,44 +29,32 @@ def multiradix_recursive(M):
     return multiradix_recursive_core(M, n, a, n - 1)
 
 
-def multiradix_coroutine_core(M):
-    # The basic idea is simple here: create a coroutine gen(i) whose task is to
-    # check if a[i] < M[i] - 1 in which case just increase a[i] and yield True,
-    # otherwise set a[i] = 0 and yield gen(i - 1).
+def multiradix_coroutine(M):
+    # The basic idea is simple here: create a coroutine troll(i) whose task is
+    # to check if a[i] < M[i] - 1 in which case just increase a[i] and yield
+    # True, otherwise set a[i] = 0 and yield troll(i - 1).
     n = len(M)
     M = [0] + M
     a = [0] * (n + 1)
 
     coroutines = [nobody()]
 
-    def gen(i):
+    def troll(i):
         while True:
             if a[i] == M[i] - 1:
                 a[i] = 0
-                yield next(coroutines[i - 1])
+                yield next(coroutines[i - 1])  # Poke the next troll
             else:
                 a[i] += 1
                 yield True
 
-    coroutines.extend(gen(i) for i in range(1, n + 1))
-    return a, coroutines[-1]
-
-
-def multiradix_coroutine(M):
-    """
-    Generates all multi-radix numbers a[0] ... a[n - 1] such that
-    0 <= a[i] < M[i], in lexicographic order using coroutines.
-    """
-    a, lead = multiradix_coroutine_core(M)
+    coroutines.extend(troll(i) for i in range(1, n + 1))
+    lead = coroutines[n]
     while next(lead):
         yield a
 
 
 def multiradix_iterative(M):
-    """
-    Generates all multi-radix numbers a[0] ... a[n - 1] such that
-    0 <= a[i] < M[i], in lexicographic order using an iterative algorithm.
-    """
     n = len(M)
     a = [0] * n
     while True:
@@ -95,15 +80,15 @@ def number_to_multiradix(M, x, a):
 
 
 def multiradix_counting(M):
-    """
-    Generates all multi-radix numbers a[0] ... a[n - 1] such that
-    0 <= a[i] < M[i], in lexicographic order using arithmetic.
-    """
     n = len(M)
     a = [0] * n
     last = reduce(mul, M, 1)
     for x in range(last):
         yield number_to_multiradix(M, x, a)
+
+
+def multiradix_product(M):
+    return itertools.product(*(range(x) for x in M))
 
 
 @log_execution_time
@@ -123,6 +108,7 @@ def run_tests():
     for generator in [multiradix_counting,
                       multiradix_iterative,
                       multiradix_recursive,
+                      multiradix_product,
                       multiradix_coroutine]:
         print('Testing {}:'.format(generator.__name__))
         test_generator(generator)

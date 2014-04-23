@@ -29,6 +29,5 @@ T['right']['value'] = '-'
 T['right']['left']['value'] = '4'
 T['right']['right']['value'] = '2'
 
-# Note that since
 postfix = ' '.join(str(x) for x in postorder(T))
 print(postfix)  # Prints 1 3 + 4 2 - *
