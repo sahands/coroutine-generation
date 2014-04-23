@@ -105,10 +105,10 @@ def basic_test(generator):
 
 
 def run_tests():
-    for generator in [multiradix_counting,
-                      multiradix_iterative,
+    for generator in [multiradix_product,
+                      multiradix_counting,
                       multiradix_recursive,
-                      multiradix_product,
+                      multiradix_iterative,
                       multiradix_coroutine]:
         print('Testing {}:'.format(generator.__name__))
         test_generator(generator)
