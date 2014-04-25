@@ -5,8 +5,7 @@ from functools import reduce
 def number_to_multiradix(M, x, a):
     n = len(M)
     for i in range(1, n + 1):
-        a[-i] = x % M[-i]
-        x = x // M[-i]
+        x, a[-i] = divmod(x, M[-i])
     return a
 
 
