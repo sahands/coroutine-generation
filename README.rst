@@ -13,12 +13,6 @@ Combinatorial Generation Using Coroutines With Examples in Python
 
 .. section-numbering::
 
-.. Table of Contents
-.. =================
-..
-.. .. contents:: 
-..    :backlinks: none
-
 Introduction
 ============
 
@@ -135,7 +129,7 @@ function is used, and the generator object is passed to ``next`` as the
 parameter. Here is a very simple example demonstrating how a very simple
 function as be implemented as a coroutine using a generator in Python:
 
-.. code-include:: code/python/coroutines/src/basic_examples/gen.py
+.. code-include:: ./src/basic_examples/gen.py
     :lexer: python
     :start-line: 3
 
@@ -146,7 +140,7 @@ somewhat more interesting example, taken, with minor modification, from
 [PEP-255]_:
 
 
-.. code-include:: code/python/coroutines/src/basic_examples/fib.py
+.. code-include:: ./src/basic_examples/fib.py
     :lexer: python
     :start-line: 3
 
@@ -164,14 +158,14 @@ minimalistic binary tree and then print its post-order traversal. Notice how
 generators can be recursive, and how they implement the ``iterator`` interface
 which allows them to be used inside ``for`` loops and generator expressions.
 
-.. code-include:: code/python/coroutines/src/basic_examples/recursive_generator.py
+.. code-include:: ./src/basic_examples/recursive_generator.py
     :lexer: python
     :start-line: 3
 
 In Python 3, with [PEP-380]_, the above can be made even simpler by using the
 ``yield from`` statement:
 
-.. code-include:: code/python/coroutines/src/basic_examples/recursive_generator_3.py
+.. code-include:: ./src/basic_examples/recursive_generator_3.py
     :lexer: python
     :start-line: 3
     :end-line: 10
@@ -295,7 +289,7 @@ where :math:`M = [m_0, \ldots, m_{n-1}]`. So those of you familiar with
 Python's ``itertools`` module might already have thought of a quick solution to
 the problem:
 
-.. code-include:: code/python/coroutines/src/multiradix_product.py
+.. code-include:: ./src/multiradix_product.py
    :lexer: python
 
 This, of course, is not an algorithm as much as it is delegating the task!
@@ -331,7 +325,7 @@ the multi-radix base given by :math:`M`, similar to how we convert numbers to
 binary. This results in the following code.
 
 
-.. code-include:: code/python/coroutines/src/multiradix_counting.py
+.. code-include:: ./src/multiradix_counting.py
    :lexer: python
 
 
@@ -353,7 +347,7 @@ lexicographic order, we can extend that list to a list of lexicographic numbers
 for :math:`M` by appending :math:`0` to :math:`M[n-1] - 1` to each element of
 the list. This approach leads to the following recursive code:
 
-.. code-include:: code/python/coroutines/src/multiradix_recursive.py
+.. code-include:: ./src/multiradix_recursive.py
    :lexer: python
 
 Quite simple and elegant, and as we will see, quite fast as well. 
@@ -374,7 +368,7 @@ lexicographic order. We can also just set numbers that can not be incremented
 to zero as we do the scanning for the first number to increment, which will
 save us from having two loops.  This approach results in the following code:
 
-.. code-include:: code/python/coroutines/src/multiradix_iterative.py
+.. code-include:: ./src/multiradix_iterative.py
    :lexer: python
 
 
@@ -414,7 +408,7 @@ Yelling out "done" will be yielding ``True`` and yelling out "last" will
 yielding ``False``. Troll number :math:`-1` is a special ``nobody`` coroutine
 that simply yields ``False`` repeatedly:
 
-.. code-include:: code/python/coroutines/src/nobody.py
+.. code-include:: ./src/nobody.py
    :lexer: python
 
 The rest of the trolls are instances of the ``troll`` coroutine in the code
@@ -422,7 +416,7 @@ given below. Each troll creates the troll previous to it in line, until we get
 to troll number :math:`0`, which creates a ``nobody`` coroutine as its previous
 troll.  
 
-.. code-include:: code/python/coroutines/src/multiradix_coroutine.py
+.. code-include:: ./src/multiradix_coroutine.py
    :lexer: python
 
 
@@ -548,7 +542,7 @@ order. A very naive recursive implementation in Python, which requires the
 whole code to be kept in memory, is given below, as a more precise definition.
 
 
-.. code-include:: ./code/python/coroutines/src/bgrc_naive.py
+.. code-include:: ./src/bgrc_naive.py
    :lexer: python
    :start-line: 2
 
@@ -596,7 +590,7 @@ will again be the last one, and we start the list with the all zeros list.
 Putting it all together we have the following code.
 
 
-.. code-include:: ./code/python/coroutines/src/bgrc_coroutine.py
+.. code-include:: ./src/bgrc_coroutine.py
     :lexer: python
 
 With this algorithm, when ``False`` is yielded the first time, ``a`` will be
@@ -636,7 +630,7 @@ moves it to the right until it can no longer move.
 
 A simple recursive implementation of this algorithm is given below.
 
-.. code-include:: ./code/python/coroutines/src/sjt_recursive.py
+.. code-include:: ./src/sjt_recursive.py
    :lexer: python
 
 
@@ -676,7 +670,7 @@ to see if our number is greater than the next number before doing a swap.
 
 The end result is the following code.
 
-.. code-include:: ./code/python/coroutines/src/sjt_coroutine.py
+.. code-include:: ./src/sjt_coroutine.py
    :lexer: python
 
 
@@ -820,7 +814,7 @@ asleep or awake, but also on whether his light is on or off. Instead of
 explaining it here, I will let the code do the explanation with some added
 comments.
 
-.. code-include:: ./code/python/coroutines/src/chain_coroutine.py
+.. code-include:: ./src/chain_coroutine.py
    :lexer: python
 
 The basic idea is to set bits to one starting from the top of the last chain,
