@@ -50,21 +50,8 @@ def test_preprimes(n):
     print('Count =', c)
 
 
-def find(q, n, k):
-    primes, cycle, p_seq = debruijn_cycle(n, k)
-    cycle_s = ''.join(str(x) for x in cycle)
-    found_index = cycle_s.index(q)
-    index = 0
-    k = 0
-    while index < found_index:
-        index += p_seq[k]
-        k += 1
-    for i in range(k - 2, k + 3):
-        print(''.join(str(x) for x in primes[i]), end=' ')
-    print()
-    print(k - 1)
-
+def main():
+    test_preprimes(5)
 
 if __name__ == '__main__':
-    find('220121012', 9, 3)
-    find('22012201', 8, 3)
+    main()
