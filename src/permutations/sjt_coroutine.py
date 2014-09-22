@@ -33,11 +33,11 @@ def setup(n):
     # The zeros act as "fixed barriers", never moving
     pi = list(range(n + 1)) + [0]
 
-    # The inverse permutation starts as the identity as well.
+    # The inverse permutation starts as the identity as well. It does not need
+    # the fixed barriers since their inverses will never be looked up.
     inv = pi[:-1]
 
-    # The lead coroutine will be the
-    # item n in the permutation
+    # The lead coroutine will be the coroutine in charge of moving 1
     lead = troll(1, n, pi, inv)
     return pi, lead
 
