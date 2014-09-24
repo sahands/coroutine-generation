@@ -66,10 +66,11 @@ def test(n, M=None):
 
 
 def main():
-    test(3)
-    test(4)
-    test(5)
-    test(6)
+    # test(3)
+    # test(4)
+    # test(5)
+    # test(6)
+    test(7)
     exit()
 
     n = 5
