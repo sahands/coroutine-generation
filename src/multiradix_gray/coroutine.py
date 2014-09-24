@@ -1,14 +1,6 @@
-from itertools import cycle
-
-
 def nobody():
     while True:
         yield False
-
-
-def reflected_cycle(n):
-    """Cycle through 0, 1, ..., n-1, n - 1, n - 2, ..., 1, 0"""
-    return cycle(list(range(n)) + list(range(n - 1, 0, -1)))
 
 
 def troll(M, a, i):

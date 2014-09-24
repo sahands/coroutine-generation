@@ -1,5 +1,6 @@
+# Currently broken!
 def exts(n, M):
-    A = range(n + 1)
+    A = list(range(n + 1))
     inv = A[:]
     yield A[:-1]
 
@@ -23,20 +24,35 @@ def exts(n, M):
             yield A[:-1]
 
 
-n = 5
+def zig_zag(n):
+    def M(a, b):
+        if b == n:
+            return True
+        if a == 0:
+            return b == n // 2 + 1
+        if n % 2 == 0:
+            if a >= n // 2:
+                return False
+            return b in [a - 1 + n // 2, a + n // 2]
+        else:
+            if a > n // 2:
+                return False
+            return b in [a + n // 2, a + 1 + n // 2]
+    return M
 
-def M(a, b):
-    if b == n:
-        return True
-    if b == 2:
-        return a in [0, 1]
-    if b == 4:
-        return a in [3]
-    return False
 
-c = 0
-for A in exts(5, lambda a, b: b == n):
-    print ''.join(str(x) for x in A)
-    c += 1
+def main():
+    n = 4
+    c = 0
+    for A in exts(n, zig_zag(n)):
+        print(''.join(str(x) for x in A))
+        c += 1
+    # for A in exts(5, lambda a, b: b == n):
+    #     print ''.join(str(x) for x in A)
+    #     c += 1
 
-print c
+    print(c)
+
+
+if __name__ == '__main__':
+    main()
