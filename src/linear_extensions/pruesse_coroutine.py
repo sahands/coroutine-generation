@@ -1,3 +1,6 @@
+# import ipdb
+# ipdb.set_trace()
+
 LESS = -1
 GREATER = 1
 INCOMP = 0  # Incomparable
@@ -5,7 +8,7 @@ RIGHT = 1
 LEFT = -1
 
 DEBUG = False
-DEBUG = True
+# DEBUG = True
 
 
 def setup(n, compare):
@@ -50,18 +53,26 @@ def setup(n, compare):
         while True:
             yield False, False
 
-    def troll(a, b):
+    def coroutine(a, b):
         """
-        troll(a, b) is a coroutine responsible for traversing the Hamiltonian
-        cycle for the 2B-poset in which a is before b, followed immediately by
-        the cycle in which b is before a.
+        coroutine(a, b) is a coroutine responsible for traversing the
+        Hamiltonian cycle for the 2B-poset in which a is before b, followed
+        immediately by the cycle in which b is before a.
         """
         while True:
             mra = mrb = 0
-            # If b can not move to the right then we just change sign and are
-            # done
+            # If b can not move to the right then we just move a to the right
+            # as far as we can.
             if not can_move_b_right(b):
+                while can_move_a_right(a, b):
+                    move(a, RIGHT)
+                    mra += 1
+                    yield False, True
+                # Switch sign
                 yield True, True
+                for __ in range(mra):
+                    move(a, LEFT)
+                    yield False, True
                 yield False, False
                 continue
 
@@ -94,8 +105,8 @@ def setup(n, compare):
             yield False, False
 
     def glue(a, b, t):
-        u = troll(a, b)
-        w = troll(b, a)
+        u = coroutine(a, b)
+        w = coroutine(b, a)
         while True:
             for u_change_sign, u_has_more in u:
                 if not u_has_more:
@@ -106,34 +117,34 @@ def setup(n, compare):
                 if not has_more:
                     break
                 if change_sign:
-                    print("Switch {} and {}".format(a, b))
+                    if DEBUG:
+                        print("Switch {} and {}".format(a, b))
                     transpose(a, b)
-                    # u, w = w, u
+                    u, w = w, u
                     a, b = b, a
-                    u = troll(a, b)
-                    yield False, True
+                    # u = coroutine(a, b)
+                yield False, True
                 for u_change_sign, u_has_more in u:
                     if not u_has_more:
                         break
-
                     yield u_change_sign, True
             yield False, False
 
     def gen_all():
-        # t1 = troll(1, 2, gnome())
-        # t2 = troll(3, 4, t1)
+        # t1 = coroutine(1, 2, gnome())
+        # t2 = coroutine(3, 4, t1)
         yield A
-        # for change_sign, has_more in troll(1, 2):
-        # for change_sign, has_more in troll(3, 4):
+        # for change_sign, has_more in coroutine(1, 2):
+        # for change_sign, has_more in coroutine(3, 4):
         # for change_sign, has_more in glue(1, 2, gnome()):
         for change_sign, has_more in glue(1, 2, glue(3, 4, gnome())):
+            if not has_more:
+                break
             if change_sign:
                 if DEBUG:
                     print("Changing sign.")
                 A[0] = -A[0]
             yield A
-            if not has_more:
-                break
 
     return gen_all
 
@@ -150,7 +161,8 @@ def main():
     S = []
 
     def visit(A):
-        d = ["", "1", "a", "2", "b"]
+        # d = ["", "1", "a", "2", "b"]
+        d = ["", "1", "2", "3", "4"]
         # d = ["", "1", "2"]
         # s = ("+" if A[0] > 0 else "-") + ''.join(str(x) for x in A[1:])
         s = ("+ " if A[0] > 0 else "- ") + ' '.join(d[x] for x in A[1:])
