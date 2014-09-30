@@ -4,7 +4,7 @@ INCOMP = 0  # Incomparable
 
 
 DEBUG = False
-DEBUG = True
+# DEBUG = True
 
 
 def setup(n, compare, visit):
@@ -28,11 +28,8 @@ def setup(n, compare, visit):
         # True if b[i] can move to the right
         if inv[b[i]] >= n:
             return False
-        # if DEBUG:
-        #     print("inv[b[{}]] = {}".format(i, inv[b[i]]))
         right = A[inv[b[i]] + 1]
         return compare(b[i], right) == INCOMP
-        # return compare(b[i], right) == INCOMP
 
     def transpose(x, y):
         i = inv[x]
@@ -62,43 +59,34 @@ def setup(n, compare, visit):
     def gen(i):
         if i == 0:
             return
-
         if DEBUG:
             print("gen({}):".format(i))
-
         gen(i - 1)
-        mrb = 0
-        mla = 0
-        typical = False
+        mra = mla = mrb = 0
         while can_move_b_right(i):
             mrb += 1
             move(b[i], RIGHT)
             gen(i - 1)
-            mra = 0
-            if can_move_a_right(i):
-                typical = True
-                while True:
-                    mra += 1
-                    move(a[i], RIGHT)
-                    gen(i - 1)
-                    if not can_move_a_right(i):
-                        break
-            if typical:
+            while can_move_a_right(i):
+                mra += 1
+                move(a[i], RIGHT)
+                gen(i - 1)
+            if mra > 0:
                 switch(i - 1)
                 gen(i - 1)
                 if mrb % 2 == 1:
                     mla = mra - 1
                 else:
                     mla = mra + 1
-                for x in range(1, mla + 1):
+                for __ in range(mla):
                     move(a[i], LEFT)
                     gen(i - 1)
-        if typical and mrb % 2 == 1:
+        if mra > 0 and mrb % 2 == 1:
             move(a[i], LEFT)
         else:
             switch(i - 1)
         gen(i - 1)
-        for x in range(1, mrb + 1):
+        for __ in range(mrb):
             move(b[i], LEFT)
             gen(i - 1)
 

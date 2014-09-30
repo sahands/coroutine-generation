@@ -59,7 +59,7 @@ def test(n, M=None):
         print(c, ''.join(str(x) for x in A[1:-1]))
         if not next(lead):
             print('-----')
-            break  # For now, the repeat in oppositve order does not work
+            # break  # For now, the repeat in oppositve order does not work
             sleep(1)
             lead = next(leaders)
             d = -d
@@ -67,10 +67,10 @@ def test(n, M=None):
 
 def main():
     # test(3)
-    # test(4)
+    test(4)
     # test(5)
     # test(6)
-    test(7)
+    # test(7)
     exit()
 
     n = 5
