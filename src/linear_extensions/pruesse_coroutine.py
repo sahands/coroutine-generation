@@ -43,11 +43,12 @@ def setup(n, compare):
     def gnome():
         """Just switches the sign and yields True, then False, continuously."""
         while True:
-            yield True, False
+            yield True, True
+            yield False, False
 
     def nobody():
         while True:
-            yield False
+            yield False, False
 
     def troll(a, b):
         """
@@ -60,7 +61,9 @@ def setup(n, compare):
             # If b can not move to the right then we just change sign and are
             # done
             if not can_move_b_right(b):
-                yield True, False
+                yield True, True
+                yield False, False
+                continue
 
             # Otherwise, let's start traversing the path:
             while can_move_b_right(b):
@@ -87,23 +90,34 @@ def setup(n, compare):
                 yield True, True
             for __ in range(mrb):
                 move(b, LEFT)
-                yield False, False
+                yield False, True
+            yield False, False
 
     def glue(a, b, t):
         u = troll(a, b)
         w = troll(b, a)
-        for change_sign, has_more in t:
-            print(change_sign, has_more)
-            if change_sign:
-                print("Switch {} and {}".format(a, b))
-                transpose(a, b)
-                u, w = w, u
-            yield False, True
+        while True:
             for u_change_sign, u_has_more in u:
-                print("u", u_change_sign, u_has_more)
-                yield u_change_sign, has_more or u_has_more
                 if not u_has_more:
                     break
+                yield u_change_sign, True
+
+            for change_sign, has_more in t:
+                if not has_more:
+                    break
+                if change_sign:
+                    print("Switch {} and {}".format(a, b))
+                    transpose(a, b)
+                    # u, w = w, u
+                    a, b = b, a
+                    u = troll(a, b)
+                    yield False, True
+                for u_change_sign, u_has_more in u:
+                    if not u_has_more:
+                        break
+
+                    yield u_change_sign, True
+            yield False, False
 
     def gen_all():
         # t1 = troll(1, 2, gnome())
@@ -111,6 +125,7 @@ def setup(n, compare):
         yield A
         # for change_sign, has_more in troll(1, 2):
         # for change_sign, has_more in troll(3, 4):
+        # for change_sign, has_more in glue(1, 2, gnome()):
         for change_sign, has_more in glue(1, 2, glue(3, 4, gnome())):
             if change_sign:
                 if DEBUG:
@@ -135,17 +150,39 @@ def main():
     S = []
 
     def visit(A):
-        d = ["", "a1", "b1", "a2", "b2"]
+        d = ["", "1", "a", "2", "b"]
         # d = ["", "1", "2"]
         # s = ("+" if A[0] > 0 else "-") + ''.join(str(x) for x in A[1:])
         s = ("+ " if A[0] > 0 else "- ") + ' '.join(d[x] for x in A[1:])
         print("   " + s)
+        if s in S:
+            print("DUPLICATE")
         S.append(s)
 
     gen = setup(4, compare)
     for A in gen():
         visit(A)
     print(len(S))
+    print(len(set(S)))
+
+
+def main2():
+    def compare(x, y):
+        return INCOMP
+    S = []
+
+    def visit(A):
+        d = ["", "1", "2", "3"]
+        s = ("+ " if A[0] > 0 else "- ") + ' '.join(d[x] for x in A[1:])
+        print(" " + s)
+        if s in S:
+            print("DUPLICATE")
+        S.append(s)
+    gen = setup(3, compare)
+    for A in gen():
+        visit(A)
+    print(len(S))
+    print(len(set(S)))
 
 
 if __name__ == '__main__':
