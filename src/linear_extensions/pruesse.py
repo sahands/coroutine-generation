@@ -115,14 +115,16 @@ def main():
     S = []
 
     def visit(A):
-        d = ["", "a1", "b1", "a2", "b2"]
+        # d = ["", "a1", "b1", "a2", "b2"]
         # s = ("+" if A[0] > 0 else "-") + ''.join(str(x) for x in A[1:])
-        s = ("+" if A[0] > 0 else "-") + ' '.join(d[x] for x in A[1:])
+        d = ["", "1", "2", "3", "4"]
+        s = ("+" if A[0] > 0 else "-") + ''.join(d[x] for x in A[1:])
         print(s)
         S.append(s)
 
     gen = setup(4, compare, visit)
     gen()
+    exit()
     print(len(S))
 
 

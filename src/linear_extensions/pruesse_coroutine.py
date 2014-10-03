@@ -1,5 +1,7 @@
 # import ipdb
 # ipdb.set_trace()
+from time import sleep
+
 
 LESS = -1
 GREATER = 1
@@ -133,18 +135,28 @@ def setup(n, compare):
     def gen_all():
         # t1 = coroutine(1, 2, gnome())
         # t2 = coroutine(3, 4, t1)
-        yield A
+        S = {tuple(A)}
+        yield S, A
         # for change_sign, has_more in coroutine(1, 2):
         # for change_sign, has_more in coroutine(3, 4):
         # for change_sign, has_more in glue(1, 2, gnome()):
-        for change_sign, has_more in glue(1, 2, glue(3, 4, gnome())):
+        g = glue(1, 2, glue(3, 4, gnome()))
+        while True:
+            change_sign, has_more = next(g)
             if not has_more:
-                break
+                exit()
+                # print('----')
+                # sleep(2)
+                # S = {tuple(A)}
+                # yield S, A
+                # continue
+
             if change_sign:
                 if DEBUG:
                     print("Changing sign.")
                 A[0] = -A[0]
-            yield A
+            S.add(tuple(A))
+            yield S, A
 
     return gen_all
 
@@ -158,24 +170,20 @@ def main():
             return GREATER
         return INCOMP
 
-    S = []
-
-    def visit(A):
+    def visit(S, A):
         # d = ["", "1", "a", "2", "b"]
         d = ["", "1", "2", "3", "4"]
         # d = ["", "1", "2"]
         # s = ("+" if A[0] > 0 else "-") + ''.join(str(x) for x in A[1:])
-        s = ("+ " if A[0] > 0 else "- ") + ' '.join(d[x] for x in A[1:])
-        print("   " + s)
-        if s in S:
-            print("DUPLICATE")
-        S.append(s)
+        s = ("+" if A[0] > 0 else "-") + ''.join(d[x] for x in A[1:])
+        # print("{: 3} {}".format(len(S), s))
+        print(s)
+        # if s in S:
+        #     print("DUPLICATE")
 
     gen = setup(4, compare)
-    for A in gen():
-        visit(A)
-    print(len(S))
-    print(len(set(S)))
+    for S, A in gen():
+        visit(S, A)
 
 
 def main2():
@@ -187,8 +195,8 @@ def main2():
         d = ["", "1", "2", "3"]
         s = ("+ " if A[0] > 0 else "- ") + ' '.join(d[x] for x in A[1:])
         print(" " + s)
-        if s in S:
-            print("DUPLICATE")
+        # if s in S:
+        #     print("DUPLICATE")
         S.append(s)
     gen = setup(3, compare)
     for A in gen():
