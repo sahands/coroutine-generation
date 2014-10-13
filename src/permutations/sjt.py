@@ -1,14 +1,8 @@
-from __future__ import print_function
-
 from time import sleep
-
-
 from sjt_coroutine import permutations as sjtc
 from sjt_coroutine import setup
 from sjt_recursive import permutations as sjtr
-from utils import log_execution_time
-
-__author__ = "Sahand Saba"
+from log_time import log_execution_time
 
 
 def cyclic_test(n):
