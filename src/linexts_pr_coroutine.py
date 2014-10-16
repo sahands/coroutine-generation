@@ -1,16 +1,17 @@
-# import ipdb
-# ipdb.set_trace()
 from time import sleep
 
 
+# Compare results
 LESS = -1
 GREATER = 1
 INCOMP = 0  # Incomparable
+
+# Movement directions
 RIGHT = 1
 LEFT = -1
 
+# Print debug messages or not
 DEBUG = False
-# DEBUG = True
 
 
 def setup(n, compare):
@@ -30,7 +31,6 @@ def setup(n, compare):
         transpose(x, A[inv[x] + d])
 
     def can_move_a_right(a, b):
-        # True if a[i] can move to the right
         i = inv[a]
         if i >= n:
             return False
@@ -38,7 +38,6 @@ def setup(n, compare):
         return right != b and compare(a, right) == INCOMP
 
     def can_move_b_right(b):
-        # True if b[i] can move to the right
         i = inv[b]
         if i >= n:
             return False
@@ -55,9 +54,9 @@ def setup(n, compare):
         while True:
             yield False, False
 
-    def coroutine(a, b):
+    def local(a, b):
         """
-        coroutine(a, b) is a coroutine responsible for traversing the
+        local(a, b) is a coroutine responsible for traversing the
         Hamiltonian cycle for the 2B-poset in which a is before b, followed
         immediately by the cycle in which b is before a.
         """
@@ -106,9 +105,9 @@ def setup(n, compare):
                 yield False, True
             yield False, False
 
-    def glue(a, b, t):
-        u = coroutine(a, b)
-        w = coroutine(b, a)
+    def stitch(a, b, t):
+        u = local(a, b)
+        w = local(b, a)
         while True:
             for u_change_sign, u_has_more in u:
                 if not u_has_more:
@@ -124,7 +123,6 @@ def setup(n, compare):
                     transpose(a, b)
                     u, w = w, u
                     a, b = b, a
-                    # u = coroutine(a, b)
                 yield False, True
                 for u_change_sign, u_has_more in u:
                     if not u_has_more:
@@ -133,23 +131,13 @@ def setup(n, compare):
             yield False, False
 
     def gen_all():
-        # t1 = coroutine(1, 2, gnome())
-        # t2 = coroutine(3, 4, t1)
         S = {tuple(A)}
         yield S, A
-        # for change_sign, has_more in coroutine(1, 2):
-        # for change_sign, has_more in coroutine(3, 4):
-        # for change_sign, has_more in glue(1, 2, gnome()):
-        g = glue(1, 2, glue(3, 4, gnome()))
+        g = stitch(1, 2, stitch(3, 4, gnome()))
         while True:
             change_sign, has_more = next(g)
             if not has_more:
                 exit()
-                # print('----')
-                # sleep(2)
-                # S = {tuple(A)}
-                # yield S, A
-                # continue
 
             if change_sign:
                 if DEBUG:
@@ -171,15 +159,11 @@ def main():
         return INCOMP
 
     def visit(S, A):
-        # d = ["", "1", "a", "2", "b"]
-        d = ["", "1", "2", "3", "4"]
-        # d = ["", "1", "2"]
-        # s = ("+" if A[0] > 0 else "-") + ''.join(str(x) for x in A[1:])
+        d = ["", "1", "a", "2", "b"]
         s = ("+" if A[0] > 0 else "-") + ''.join(d[x] for x in A[1:])
-        # print("{: 3} {}".format(len(S), s))
         print(s)
-        # if s in S:
-        #     print("DUPLICATE")
+        if s in S:
+            print("DUPLICATE - something went wrong!")
 
     gen = setup(4, compare)
     for S, A in gen():
@@ -195,8 +179,6 @@ def main2():
         d = ["", "1", "2", "3"]
         s = ("+ " if A[0] > 0 else "- ") + ' '.join(d[x] for x in A[1:])
         print(" " + s)
-        # if s in S:
-        #     print("DUPLICATE")
         S.append(s)
     gen = setup(3, compare)
     for A in gen():

@@ -4,7 +4,6 @@ INCOMP = 0  # Incomparable
 
 
 DEBUG = False
-# DEBUG = True
 
 
 def setup(n, compare, visit):
@@ -115,9 +114,7 @@ def main():
     S = []
 
     def visit(A):
-        # d = ["", "a1", "b1", "a2", "b2"]
-        # s = ("+" if A[0] > 0 else "-") + ''.join(str(x) for x in A[1:])
-        d = ["", "1", "2", "3", "4"]
+        d = ["", "1", "a", "2", "b"]
         s = ("+" if A[0] > 0 else "-") + ''.join(d[x] for x in A[1:])
         print(s)
         S.append(s)
