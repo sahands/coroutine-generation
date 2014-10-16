@@ -1,4 +1,5 @@
 from nobody import nobody
+from stich import stitch
 
 
 def local(M, a, i):
@@ -13,19 +14,12 @@ def local(M, a, i):
             yield False
 
 
-def glue(X, Y):
-    while True:
-        while next(Y):
-            yield True
-        yield next(X)
-
-
 def setup(M):
     n = len(M)
     a = [0] * n
     lead = nobody()
     for i in range(n):
-        lead = glue(local(M, a, n - i - 1), lead)
+        lead = stitch(local(M, a, n - i - 1), lead)
     return a, lead
 
 

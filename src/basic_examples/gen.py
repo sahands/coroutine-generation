@@ -1,6 +1,3 @@
-from __future__ import print_function
-
-
 def add_func(a, b):
     return a + b
 
@@ -19,5 +16,5 @@ x = next(adder)
 print(x)
 
 # Further calls such as the following to adder will result in a StopIteration
-# being raised.
+# being raised, since the coroutine has run its last instruction
 x = next(adder)
