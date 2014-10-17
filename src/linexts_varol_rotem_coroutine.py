@@ -1,14 +1,13 @@
 from nobody import nobody
 from stitch import stitch
-from permutation_move import move, LEFT
-from permutation_cyclic_shift import left_cyclic_shift
+from permutations import move, LEFT, left_cyclic_shift
 
 
 def local(poset, pi, inv, i):
     """
     Move i to the left while maintaining pi as a linear extension of poset.
     When i can no longer move to the left, do a cyclic shift to put i back to
-    the its starting position.
+    its starting position.
     """
     while True:
         k = inv[i]

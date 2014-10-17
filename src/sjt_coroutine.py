@@ -1,7 +1,7 @@
 from time import sleep
 from nobody import nobody
 from stitch import stitch
-from permutation_transpose import transpose
+from permutations import transpose
 
 
 def local(pi, inv, i):

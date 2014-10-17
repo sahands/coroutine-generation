@@ -1,5 +1,4 @@
-from permutation_transpose import transpose
-from permutation_move import move, LEFT, RIGHT
+from permutations import move, LEFT, RIGHT, transpose
 
 # Compare results
 LESS = -1
