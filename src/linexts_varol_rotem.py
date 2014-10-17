@@ -24,25 +24,6 @@ def exts(n, M):
             yield A[:-1]
 
 
-def zig_zag(n):
-    def M(a, b):
-        if b == n:
-            return True
-        if n % 2 == 0:
-            if a == 0:
-                return b == n // 2
-            if a >= n // 2:
-                return False
-            return b in [a - 1 + n // 2, a + n // 2]
-        else:
-            if a == 0:
-                return b == n // 2 + 1
-            if a > n // 2:
-                return False
-            return b in [a + n // 2, a + 1 + n // 2]
-    return M
-
-
 def main():
     n = 4
     c = 0

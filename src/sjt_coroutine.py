@@ -1,6 +1,7 @@
 from time import sleep
 from nobody import nobody
 from stitch import stitch
+from permutation_transpose import transpose
 
 
 def local(pi, inv, i):
@@ -9,17 +10,16 @@ def local(pi, inv, i):
     permutation inv in the direction of until it hits a "barrier", defined as
     an element smaller than it.
     """
-    d = 1
+    d = +1
     while True:
         # j is the element next to i in pi, in direction d
         j = pi[inv[i] + d]
         if i < j:
             # Swap i and j
-            pi[inv[i]], pi[inv[j]] = j, i
-            inv[i], inv[j] = inv[j], inv[i]
+            transpose(pi, inv, i, j)
             yield True
         else:
-            # Change direction and poke
+            # Change direction and yield False
             d = -d
             yield False
 
