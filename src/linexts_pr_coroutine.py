@@ -1,57 +1,38 @@
-from time import sleep
-
+from permutation_transpose import transpose
+from permutation_move import move, LEFT, RIGHT
 
 # Compare results
 LESS = -1
 GREATER = 1
 INCOMP = 0  # Incomparable
 
-# Movement directions
-RIGHT = 1
-LEFT = -1
-
 # Print debug messages or not
 DEBUG = False
 
 
 def setup(n, compare):
-    A = list(range(n + 1))
-    inv = A[:]
-    A[0] = 1
-
-    def transpose(x, y):
-        i = inv[x]
-        j = inv[y]
-        inv[x], inv[y] = j, i
-        A[i], A[j] = A[j], A[i]
-
-    def move(x, d):
-        if DEBUG:
-            print("Moving {} in direction {}.".format(x, d))
-        transpose(x, A[inv[x] + d])
+    pi = list(range(n + 1))
+    inv = pi[:]
+    pi[0] = 1
 
     def can_move_a_right(a, b):
         i = inv[a]
         if i >= n:
             return False
-        right = A[i + 1]
+        right = pi[i + 1]
         return right != b and compare(a, right) == INCOMP
 
     def can_move_b_right(b):
         i = inv[b]
         if i >= n:
             return False
-        right = A[i + 1]
+        right = pi[i + 1]
         return compare(b, right) == INCOMP
 
-    def gnome():
+    def special_nobody():
         """Just switches the sign and yields True, then False, continuously."""
         while True:
             yield True, True
-            yield False, False
-
-    def nobody():
-        while True:
             yield False, False
 
     def local(a, b):
@@ -66,24 +47,24 @@ def setup(n, compare):
             # as far as we can.
             if not can_move_b_right(b):
                 while can_move_a_right(a, b):
-                    move(a, RIGHT)
+                    move(pi, inv, a, RIGHT)
                     mra += 1
                     yield False, True
                 # Switch sign
                 yield True, True
                 for __ in range(mra):
-                    move(a, LEFT)
+                    move(pi, inv, a, LEFT)
                     yield False, True
                 yield False, False
                 continue
 
             # Otherwise, let's start traversing the path:
             while can_move_b_right(b):
-                move(b, RIGHT)
+                move(pi, inv, b, RIGHT)
                 mrb += 1
                 yield False, True
                 while can_move_a_right(a, b):
-                    move(a, RIGHT)
+                    move(pi, inv, a, RIGHT)
                     mra += 1
                     yield False, True
                 if mra > 0:
@@ -93,19 +74,19 @@ def setup(n, compare):
                     else:
                         mla = mra + 1
                     for __ in range(mla):
-                        move(a, LEFT)
+                        move(pi, inv, a, LEFT)
                         yield False, True
             if mra > 0 and mrb % 2 == 1:
-                move(a, LEFT)
+                move(pi, inv, a, LEFT)
                 yield False, True
             else:
                 yield True, True
             for __ in range(mrb):
-                move(b, LEFT)
+                move(pi, inv, b, LEFT)
                 yield False, True
             yield False, False
 
-    def stitch(a, b, t):
+    def special_stitch(a, b, t):
         u = local(a, b)
         w = local(b, a)
         while True:
@@ -120,7 +101,7 @@ def setup(n, compare):
                 if change_sign:
                     if DEBUG:
                         print("Switch {} and {}".format(a, b))
-                    transpose(a, b)
+                    transpose(pi, inv, a, b)
                     u, w = w, u
                     a, b = b, a
                 yield False, True
@@ -131,20 +112,18 @@ def setup(n, compare):
             yield False, False
 
     def gen_all():
-        S = {tuple(A)}
-        yield S, A
-        g = stitch(1, 2, stitch(3, 4, gnome()))
+        yield pi
+        lead = special_stitch(1, 2, special_stitch(3, 4, special_nobody()))
         while True:
-            change_sign, has_more = next(g)
+            change_sign, has_more = next(lead)
             if not has_more:
-                exit()
+                return
 
             if change_sign:
                 if DEBUG:
                     print("Changing sign.")
-                A[0] = -A[0]
-            S.add(tuple(A))
-            yield S, A
+                pi[0] = -pi[0]
+            yield pi
 
     return gen_all
 
@@ -158,33 +137,19 @@ def main():
             return GREATER
         return INCOMP
 
-    def visit(S, A):
+    def visit(S, pi):
         d = ["", "1", "a", "2", "b"]
-        s = ("+" if A[0] > 0 else "-") + ''.join(d[x] for x in A[1:])
+        s = ("+" if pi[0] > 0 else "-") + ''.join(d[x] for x in pi[1:])
         print(s)
         if s in S:
             print("DUPLICATE - something went wrong!")
 
     gen = setup(4, compare)
-    for S, A in gen():
-        visit(S, A)
-
-
-def main2():
-    def compare(x, y):
-        return INCOMP
-    S = []
-
-    def visit(A):
-        d = ["", "1", "2", "3"]
-        s = ("+ " if A[0] > 0 else "- ") + ' '.join(d[x] for x in A[1:])
-        print(" " + s)
-        S.append(s)
-    gen = setup(3, compare)
-    for A in gen():
-        visit(A)
+    S = set()
+    for pi in gen():
+        S.add(tuple(pi))
+        visit(S, pi)
     print(len(S))
-    print(len(set(S)))
 
 
 if __name__ == '__main__':

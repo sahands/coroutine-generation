@@ -5,8 +5,9 @@ from stitch import stitch
 
 def local(pi, inv, i):
     """
-    The goal of local[i] is to move i in the direction of until it hits a
-    "barrier", defined as an element smaller than it.
+    The goal of local(pi, inv, i) is to move i permutation pi with inverse
+    permutation inv in the direction of until it hits a "barrier", defined as
+    an element smaller than it.
     """
     d = 1
     while True:
