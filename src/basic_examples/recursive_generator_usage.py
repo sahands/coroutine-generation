@@ -1,3 +1,6 @@
+from collections import defaultdict
+from recursive_generator import postorder
+
 # Let's build a simple tree representing (1 + 3) * (4 - 2)
 tree = lambda: defaultdict(tree)
 T = tree()
@@ -9,5 +12,5 @@ T['right']['value'] = '-'
 T['right']['left']['value'] = '4'
 T['right']['right']['value'] = '2'
 
-postfix = ' '.join(str(x) for x in postorder(T))
-print(postfix)  # Prints 1 3 + 4 2 - *
+postfix = list(postorder(T))
+print(postfix)  # ['1', '3', '+', '4', '2', '-', '*']
