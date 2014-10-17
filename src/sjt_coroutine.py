@@ -1,9 +1,26 @@
 from time import sleep
+from nobody import nobody
+from stitch import stitch
 
 
-def nobody():
+def local(pi, inv, i):
+    """
+    The goal of local[i] is to move i in the direction of until it hits a
+    "barrier", defined as an element smaller than it.
+    """
+    d = 1
     while True:
-        yield False
+        # j is the element next to i in pi, in direction d
+        j = pi[inv[i] + d]
+        if i < j:
+            # Swap i and j
+            pi[inv[i]], pi[inv[j]] = j, i
+            inv[i], inv[j] = inv[j], inv[i]
+            yield True
+        else:
+            # Change direction and poke
+            d = -d
+            yield False
 
 
 def setup(n):
@@ -16,28 +33,11 @@ def setup(n):
     # the fixed barriers since their inverses will never be looked up.
     inv = pi[:-1]
 
-    def troll(i):
-        """
-        The goal of troll[i] is to move i in the direction of until it hits a
-        "barrier", defined as an element smaller than it.
-        """
-        neighbour = troll(i + 1) if i < n else nobody()
-        d = 1
-        while True:
-            # j is the element next to i in pi, in direction d
-            j = pi[inv[i] + d]
-            if i < j:
-                # Swap i and j
-                pi[inv[i]], pi[inv[j]] = j, i
-                inv[i], inv[j] = inv[j], inv[i]
-                yield True
-            else:
-                # Change direction and poke
-                d = -d
-                yield next(neighbour)
-
     # The lead coroutine will be the coroutine in charge of moving 1
-    return pi, troll(1)
+    lead = nobody()
+    for i in range(n):
+        lead = stitch(local(pi, inv, i + 1), lead)
+    return pi, lead
 
 
 def permutations(n):
