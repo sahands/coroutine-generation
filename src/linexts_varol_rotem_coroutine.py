@@ -1,18 +1,7 @@
 from nobody import nobody
 from stitch import stitch
 from permutation_move import move, LEFT
-from time import sleep
-
-
-def cyclic_shift(pi, inv, start, end):
-    # print("Shifting {} to {}".format(start, end))
-    i = pi[start]
-    for k in range(start, end):
-        t = pi[k + 1]
-        inv[t] -= 1
-        pi[k] = t
-    inv[i] = end
-    pi[end] = i
+from permutation_cyclic_shift import left_cyclic_shift
 
 
 def local(poset, pi, inv, i):
@@ -23,23 +12,14 @@ def local(poset, pi, inv, i):
     """
     while True:
         k = inv[i]
-        # print("i = {}, k = {}".format(i, k))
         while move(pi, inv, i, LEFT, poset):
-            # print("moved {} to the left".format(i))
-            # print(pi)
             yield True
-            # sleep(1)
-        # Can not move i to the left anymore, do cyclic shift of pi[i] to pi[k]
-        # print(pi[1:-1])
-        # print(inv[1:-1])
-        cyclic_shift(pi, inv, inv[i], k)
-        # print(pi[1:-1])
-        # print(inv[1:-1])
-        sleep(1)
+        left_cyclic_shift(pi, inv, inv[i], k)
         yield False
 
 
 def setup(n, poset):
+    # 0 and n + 1 will be used as the minimum and maximum
     pi = list(range(n + 2))
     inv = pi[:]
     lead = nobody()
