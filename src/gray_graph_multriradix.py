@@ -1,6 +1,6 @@
 from multiradix_coroutine import multiradix_coroutine
 from multiradix_gray_coroutine import multiradix_gray_coroutine
-from gen_graph import generate_pgf_gray_graph
+from gray_graph import generate_pgf_gray_graph
 
 
 def dist(a, b):

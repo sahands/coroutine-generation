@@ -1,6 +1,6 @@
 from sjt_coroutine import permutations
-from gen_graph import generate_pgf_gray_graph
-from gen_graph import generate_adjacency_matrix
+from gray_graph import generate_pgf_gray_graph
+# from gray_graph import generate_adjacency_matrix
 
 
 def dist(a, b):
