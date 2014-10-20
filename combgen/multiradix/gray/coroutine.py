@@ -1,5 +1,5 @@
-from nobody import nobody
-from stich import stitch
+from combgen.common import nobody
+from combgen.common import stitch_coroutines
 
 
 def local(M, a, i):
@@ -17,9 +17,8 @@ def local(M, a, i):
 def setup(M):
     n = len(M)
     a = [0] * n
-    lead = nobody()
-    for i in range(n):
-        lead = stitch(local(M, a, n - i - 1), lead)
+    coroutines = [local(M, a, i) for i in range(n)] + [nobody()]
+    lead = stitch_coroutines(coroutines)
     return a, lead
 
 

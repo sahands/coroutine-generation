@@ -1,9 +1,9 @@
-from multiradix_coroutine import multiradix_coroutine
-from multiradix_counting import multiradix_counting
-from multiradix_iterative import multiradix_iterative
-from multiradix_product import multiradix_product
-from multiradix_recursive import multiradix_recursive
-from log_time import log_execution_time
+from combgen.multiradix import multiradix_coroutine
+from combgen.multiradix import multiradix_counting
+from combgen.multiradix import multiradix_iterative
+from combgen.multiradix import multiradix_product
+from combgen.multiradix import multiradix_recursive
+from combgen.utils import log_execution_time
 
 
 @log_execution_time

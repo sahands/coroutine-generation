@@ -1,4 +1,4 @@
-from multiradix_gray_coroutine import multiradix_gray_coroutine
+from coroutine import multiradix_gray_coroutine
 
 
 def main():

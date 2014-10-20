@@ -1,5 +1,5 @@
-from nobody import nobody
-from stitch_coroutines import stitch_coroutines
+from combgen.common import nobody
+from combgen.common import stitch_coroutines
 
 
 def local(M, a, i):
