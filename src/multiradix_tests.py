@@ -22,7 +22,7 @@ def basic_test(generator):
 def run_tests():
     for generator in [multiradix_product,
                       multiradix_counting,
-                      multiradix_recursive,
+                      lambda M: multiradix_recursive(M, len(M) - 1),
                       multiradix_iterative,
                       multiradix_coroutine]:
         print('Testing {}:'.format(generator.__name__))
