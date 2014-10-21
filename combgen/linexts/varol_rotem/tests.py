@@ -21,9 +21,10 @@ def test_iterative(n):
 
 
 def main():
-    test_coroutine(5)
+    n = 6
+    test_coroutine(n)
     print('----')
-    test_iterative(5)
+    test_iterative(n)
 
 
 if __name__ == '__main__':

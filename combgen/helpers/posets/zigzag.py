@@ -9,7 +9,7 @@ def zigzag(n):
     def poset(a, b):
         if a == 1:
             return b == k + 1 + odd
-        if a == k + odd:
+        if odd and a == k + odd:
             return b == n
         if a > k + odd:
             return False
