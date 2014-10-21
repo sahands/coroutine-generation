@@ -1,4 +1,4 @@
-from stitch import stitch
+from combgen.common import stitch
 
 
 def stitch_coroutines(coroutine_list):

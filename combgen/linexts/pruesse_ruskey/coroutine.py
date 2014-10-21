@@ -1,4 +1,4 @@
-from permutations import move, LEFT, RIGHT, transpose
+from combgen.helpers.permutations import move, LEFT, RIGHT, transpose
 
 # Compare results
 LESS = -1
