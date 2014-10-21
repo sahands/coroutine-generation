@@ -1,4 +1,4 @@
-def multiradix_iterative(M):
+def gen_all(M):
     n = len(M)
     a = [0] * n
     while True:

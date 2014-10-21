@@ -1,5 +1,5 @@
 from itertools import product
 
 
-def multiradix_product(M):
+def gen_all(M):
     return product(*(range(x) for x in M))

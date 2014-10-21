@@ -12,7 +12,7 @@ def number_to_multiradix(M, x, a):
     return a
 
 
-def multiradix_counting(M):
+def gen_all(M):
     a = [0] * len(M)
     last = prod(M)
     for x in range(last):
