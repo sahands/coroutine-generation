@@ -8,10 +8,9 @@ def local(poset, pi, inv, i):
     # When i can no longer move to the left, do a cyclic shift to put i back to
     # its starting position.
     while True:
-        k = inv[i]
         while move(pi, inv, i, LEFT, poset):
             yield True
-        left_cyclic_shift(pi, inv, inv[i], k)
+        left_cyclic_shift(pi, inv, inv[i], i)
         yield False
 
 
