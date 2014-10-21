@@ -2,7 +2,7 @@ from combgen.helpers.permutations import move, LEFT, left_cyclic_shift
 from combgen.helpers.posets import add_min_max
 
 
-def varol_rotem_iterative(n, poset):
+def gen_all(n, poset):
     # 0 and n + 1 will be used as the minimum and maximum
     poset = add_min_max(poset, 0, n + 1)
     pi = list(range(n + 2))

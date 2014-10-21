@@ -1,30 +1,19 @@
-from combgen.linexts.varol_rotem.coroutine import setup
-from combgen.linexts.varol_rotem.iterative import varol_rotem_iterative
+from combgen.linexts.varol_rotem import coroutine
+from combgen.linexts.varol_rotem import iterative
 from combgen.helpers.posets import zigzag
 
 
-def test_coroutine(n):
+def test_alg(n, gen_all):
     poset = zigzag(n)
-    c = 0
-    lead, pi = setup(n, poset)
-    while True:
-        c += 1
-        print(c, ''.join(str(x) for x in pi[1:-1]))
-        if not next(lead):
-            return
-
-
-def test_iterative(n):
-    poset = zigzag(n)
-    for c, pi in enumerate(varol_rotem_iterative(n, poset)):
+    for c, pi in enumerate(gen_all(n, poset)):
         print(c + 1, ''.join(str(x) for x in pi))
 
 
 def main():
     n = 6
-    test_coroutine(n)
+    test_alg(n, coroutine.gen_all)
     print('----')
-    test_iterative(n)
+    test_alg(n, iterative.gen_all)
 
 
 if __name__ == '__main__':
