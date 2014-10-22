@@ -21,3 +21,12 @@ For much more detail, see the accompanying article at
 NOTE: This repository is currently undergoing heavy refactoring and
 modification. Some of the algorithms might be half-finished or not fully
 tested.
+
+Running Tests
+=============
+Since the repository is now in package form, you need to run modules using
+Python's `-m` parameter, like this:
+
+.. code::
+
+    python3.4 -m combgen.multiradix_gray.tests
