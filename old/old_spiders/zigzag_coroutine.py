@@ -1,9 +1,9 @@
-from nobody import nobody
+from barrier import barrier
 
 
 def troll(n, k, a, coroutines):
-    next_up = coroutines[k + 1] if k + 1 < n else nobody()
-    next_down = coroutines[k + 2] if k + 2 < n else nobody()
+    next_up = coroutines[k + 1] if k + 1 < n else barrier()
+    next_down = coroutines[k + 2] if k + 2 < n else barrier()
 
     if a[k] == 1 or k % 2 == 1:
         next_up, next_down = next_down, next_up

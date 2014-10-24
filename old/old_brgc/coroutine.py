@@ -1,8 +1,8 @@
-from nobody import nobody
+from barrier import barrier
 
 
 def troll(a, i):
-    previous = troll(a, i - 1) if i > 0 else nobody()
+    previous = troll(a, i - 1) if i > 0 else barrier()
     while True:
         a[i] = 1 - a[i]
         yield True

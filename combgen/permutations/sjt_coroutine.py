@@ -1,5 +1,5 @@
 from time import sleep
-from nobody import nobody
+from barrier import barrier
 from stitch import stitch
 from permutations import transpose
 
@@ -35,7 +35,7 @@ def setup(n):
     inv = pi[:-1]
 
     # The lead coroutine will be the coroutine in charge of moving 1
-    lead = nobody()
+    lead = barrier()
     for i in range(n):
         lead = stitch(local(pi, inv, i + 1), lead)
     return pi, lead

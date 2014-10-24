@@ -1,9 +1,9 @@
-from nobody import nobody
+from barrier import barrier
 
 
 def troll(E, n, i, a):
-    above = nobody()
-    prev_lead = nobody()
+    above = barrier()
+    prev_lead = barrier()
     if i + 1 not in (E + [n + 1]):
         above = troll(E, n, i + 1, a)
     if i in E and i != 0:

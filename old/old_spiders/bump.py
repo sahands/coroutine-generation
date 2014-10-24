@@ -1,5 +1,5 @@
 from time import sleep
-from nobody import nobody
+from barrier import barrier
 
 
 __author__ = "Sahand Saba"
@@ -7,7 +7,7 @@ __email__ = "sahands@gmail.com"
 
 
 def troll(n, k, a):
-    neighbour = troll(n, k + 1, a) if k < n else nobody()
+    neighbour = troll(n, k + 1, a) if k < n else barrier()
 
     while True:
         # awake0:
