@@ -1,7 +1,7 @@
 from combgen.helpers.permutations import move, LEFT, left_cyclic_shift
 
 
-def local(poset, pi, inv, i):
+def varol_rotem_local(poset, pi, inv, i):
     # Move i to the left while maintaining pi as a linear extension of poset.
     # When i can no longer move to the left, do a cyclic shift to put i back to
     # its starting position.

@@ -6,7 +6,7 @@ DONE        =  0  # Local coroutine is done and will start over next call
 SWITCH_SIGN = -1  # Local coroutine signalling change of sign
 
 
-def local(n, poset, pi, inv, a, b):
+def pruesse_ruskey_local(n, poset, pi, inv, a, b):
     # local(a, b) is a coroutine responsible for traversing the
     # Hamiltonian cycle for the 2B-poset in which a is before b, followed
     # immediately by the cycle in which b is before a.

@@ -1,4 +1,4 @@
-def local(M, a, i):
+def multiradix_gray_local(M, a, i):
     d = +1
     while True:
         a[i] += d

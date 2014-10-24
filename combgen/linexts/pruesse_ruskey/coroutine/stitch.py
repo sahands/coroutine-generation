@@ -1,10 +1,10 @@
 from combgen.helpers.permutations import transpose
-from .local import local, MOVED, DONE, SWITCH_SIGN
+from .local import pruesse_ruskey_local, MOVED, DONE, SWITCH_SIGN
 
 
 def pruesse_ruskey_stitch(n, poset, pi, inv, a, b, Y):
-    u = local(n, poset, pi, inv, a, b)
-    w = local(n, poset, pi, inv, b, a)
+    u = pruesse_ruskey_local(n, poset, pi, inv, a, b)
+    w = pruesse_ruskey_local(n, poset, pi, inv, b, a)
     while True:
         for result in u:
             if result == DONE:
