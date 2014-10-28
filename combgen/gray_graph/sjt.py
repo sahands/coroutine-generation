@@ -1,5 +1,5 @@
-from sjt_coroutine import permutations
-from gray_graph import generate_pgf_gray_graph
+from combgen.permutations.sjt.coroutine import gen_all
+from .grapher import generate_pgf_gray_graph
 # from gray_graph import generate_adjacency_matrix
 
 
@@ -16,7 +16,7 @@ def to_str(a):
 
 
 def main():
-    generate_pgf_gray_graph(permutations, neighbour, to_str, 3)
+    generate_pgf_gray_graph(gen_all, neighbour, to_str, 3)
     # generate_adjacency_matrix(permutations, neighbour, to_str, 3)
 
 

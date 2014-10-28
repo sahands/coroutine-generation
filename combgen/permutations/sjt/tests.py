@@ -20,12 +20,12 @@ def cyclic_test(n):
 
 @log_execution_time
 def test_generator(gen):
-    for __ in gen(10):
+    for __ in gen(1):
         pass
 
 
 def main():
-    # cyclic_test(3)
+    # cyclic_test(2)
     print('Testing coroutine-based algorithm:')
     test_generator(gen_all)
     print('Testing recursive algorithm:')

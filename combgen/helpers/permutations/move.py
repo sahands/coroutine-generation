@@ -1,8 +1,8 @@
 from .transpose import transpose
 
 # Movement directions
-RIGHT = 1
 LEFT = -1
+RIGHT = 1
 
 
 def move(pi, inv, x, d, poset=None):
@@ -11,7 +11,7 @@ def move(pi, inv, x, d, poset=None):
     # continue to be a linear extension of the poset with x moved. True is
     # returned if move is successful.
     y = pi[inv[x] + d]
-    if poset and poset(y, x):
+    if poset and ((d == LEFT and poset(y, x)) or (d == RIGHT and poset(x, y))):
         return False
     transpose(pi, inv, x, pi[inv[x] + d])
     return True

@@ -26,11 +26,16 @@ def generate_pgf_gray_graph(alg, neighbour, to_str, *args, **kwargs):
         # all we need
         neighbours = (u for u in V if neighbour(v, u) and abs(V.index(u) - V.index(v)) != 1)
         connections = ', '.join(to_str(u) for u in neighbours)
-        line = '{v} -- {{{connections}}};'.format(v=to_str(v), connections=connections)
+        template = '{v} [style={style}] -- {{{connections}}};'
+
+        line = template.format(label=to_str(v),
+                               style='node' if i > 0 else 'start',
+                               v=to_str(v),
+                               connections=connections)
         lines.append(line)
 
     for v, u in n_grams(V, 2):
-        line = '{v} -> [line width=0.8mm] {{{u}}};'.format(v=to_str(v), u=to_str(u))
+        line = '{v} -> [line width=0.3mm] {{{u}}};'.format(v=to_str(v), u=to_str(u))
         lines.append(line)
 
     print('\n'.join(lines))
