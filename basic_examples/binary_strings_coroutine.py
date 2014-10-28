@@ -1,4 +1,4 @@
-def troll(n, a, i=None, neighbour=None):
+def troll(a, i=None, neighbour=None):
     while True:
         if neighbour is None:
             yield False  # If last troll in line, nothing to do

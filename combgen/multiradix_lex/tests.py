@@ -32,4 +32,5 @@ def run_tests():
 
 
 if __name__ == '__main__':
-    run_tests()
+    print('\n'.join(''.join(str(x) for x in a) for a in combgen.multiradix_lex.coroutine.gen_all([3, 2, 3])))
+    # run_tests()
