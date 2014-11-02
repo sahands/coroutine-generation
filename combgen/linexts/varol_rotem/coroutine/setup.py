@@ -1,5 +1,5 @@
 from .local import varol_rotem_local
-from combgen.common import stitch_coroutines
+from combgen.common import coproduct
 from combgen.helpers.posets import add_min_max
 
 
@@ -9,5 +9,5 @@ def setup(n, poset):
     pi = list(range(n + 2))
     inv = pi[:]
     coroutines = [varol_rotem_local(poset, pi, inv, i + 1) for i in range(n)]
-    lead = stitch_coroutines(coroutines)
+    lead = coproduct(*coroutines)
     return lead, pi

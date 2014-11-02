@@ -1,4 +1,4 @@
-from combgen.common import stitch_coroutines
+from combgen.common import coproduct
 from .local import sjt_local
 
 
@@ -13,5 +13,5 @@ def setup(n):
     inv = pi[:-1]
     # The lead coroutine will be the coroutine in charge of moving n
     coroutines = [sjt_local(pi, inv, i + 1) for i in range(n)]
-    lead = stitch_coroutines(coroutines)
+    lead = coproduct(*coroutines)
     return pi, lead
