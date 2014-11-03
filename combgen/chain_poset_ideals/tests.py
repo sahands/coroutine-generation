@@ -4,13 +4,11 @@ from combgen.chain_poset_ideals.coroutine import gen_all
 
 
 def manual_setup_test():
-    n = 5
+    n = 6
     a = [0] * n
-    # First, manually:
-    # Represents the chain in which 0 < 1 and 2 < 3 < 4, corresponding to
-    # multiradix numbers with base M[0] = 3 and M[1] = 4
     lead = coproduct(cosymsum(X(a, 1), X(a, 0)),
-                     cosymsum(X(a, 4), X(a, 3), X(a, 2)))
+                     X(a, 2),
+                     cosymsum(X(a, 5), X(a, 4), X(a, 3)))
     k = 0
     c = 0
     while True:
