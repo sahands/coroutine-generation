@@ -25,8 +25,9 @@ def manual_setup_test():
 
 
 def auto_setup_test():
-    n = 5
-    E = [1, 4]  # The "heads" of the chains 0 < *1* and 2 < 3 < *4*
+    n = 6
+    # The "heads" of the chains 0 < *1*, *2* stand-alone, and 3 < 4 < *5*
+    E = [-1, 1, 2, 5]
     A = list(a[:] for a in gen_all(n, E))
     for a in A:
         print(''.join(str(x) for x in a))
