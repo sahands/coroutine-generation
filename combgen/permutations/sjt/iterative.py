@@ -10,12 +10,11 @@ def gen_all(n):
     x = n  # x is the active element
     yield pi[1:-1]
     while x > 0:
-        y = pi[inv[x] + d[x]]
-        if x > y:
-            transpose(pi, inv, x, y)
-            yield pi[1:-1]
-            x = n
+        y = pi[inv[x] + d[x]]  # y is the element next to x in direction d[x]
+        if x < y:
+            d[x] = -d[x]  # Switch direction
+            x -= 1  # Change active element to x - 1
         else:
-            # Change direction and yield False
-            d[x] = -d[x]
-            x -= 1
+            transpose(pi, inv, x, y)
+            yield pi[1:-1]  # New permutation is generated
+            x = n  # Change active element to n
