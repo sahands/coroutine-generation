@@ -7,13 +7,11 @@ def sjt_local(pi, inv, x):
     # an element smaller than it.
     d = -1
     while True:
-        # j is the element next to i in pi, in direction d
+        # y is the element next to i in pi, in direction d
         y = pi[inv[x] + d]
         if x > y:
-            # Swap i and j
             transpose(pi, inv, x, y)
             yield True
         else:
-            # Change direction and yield False
             d = -d
             yield False

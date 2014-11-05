@@ -1,6 +1,6 @@
 from combgen.common import cosymsum, coproduct
 from combgen.chain_poset_ideals.coroutine import chain_poset_ideals_local as X
-from combgen.chain_poset_ideals.coroutine import gen_all
+from combgen.chain_poset_ideals.coroutine import gen_all, setup
 
 
 def manual_setup_test():
@@ -22,9 +22,23 @@ def manual_setup_test():
                 break
 
 
-def auto_setup_test():
+def cyclic_test():
     n = 6
+    E = [-1, 1, 2, 5]
+    a, lead = setup(n, E)
+    c = 0
+    while True:
+        print(''.join(str(x) for x in a))
+        if not next(lead):
+            print('---')
+            c += 1
+            if c > 2:
+                break
+
+
+def auto_setup_test():
     # The "heads" of the chains 0 < *1*, *2* stand-alone, and 3 < 4 < *5*
+    n = 6
     E = [-1, 1, 2, 5]
     A = list(a[:] for a in gen_all(n, E))
     for a in A:
@@ -35,6 +49,7 @@ def auto_setup_test():
 def main():
     manual_setup_test()
     auto_setup_test()
+    cyclic_test()
 
 
 if __name__ == '__main__':
