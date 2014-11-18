@@ -7,13 +7,12 @@ def gen_all(n, poset):
     poset = add_min_max(poset, 0, n + 1)
     pi = list(range(n + 2))
     inv = pi[:]
-
     yield pi[1:-1]
-    i = n
-    while i > 1:
-        if move(pi, inv, i, LEFT, poset):
+    x = n
+    while x > 1:
+        if move(pi, inv, x, LEFT, poset):
             yield pi[1:-1]
-            i = n
+            x = n
         else:
-            left_cyclic_shift(pi, inv, inv[i], i)
-            i -= 1
+            left_cyclic_shift(pi, inv, inv[x], x)
+            x -= 1

@@ -10,7 +10,7 @@ def test_alg(n, gen_all):
 
 
 def main():
-    n = 6
+    n = 7
     test_alg(n, coroutine.gen_all)
     print('----')
     test_alg(n, iterative.gen_all)
