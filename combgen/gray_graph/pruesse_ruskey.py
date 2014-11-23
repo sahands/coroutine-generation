@@ -14,8 +14,12 @@ def neighbour(v, u):
     return dist(u, v) == 2
 
 
+def to_str(a):
+    return '"${}{}$"'.format('-' if a[0] < 0 else '+', ''.join(str(x) for x in a[1:]))
+
+
 def main():
-    generate_pgf_gray_graph(gen_all, neighbour, tests.to_str, 4, tests.poset, tests.a_b_pairs)
+    generate_pgf_gray_graph(gen_all, neighbour, to_str, 4, tests.poset, tests.a_b_pairs)
     # generate_adjacency_matrix(permutations, neighbour, to_str, 3)
 
 
