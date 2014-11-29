@@ -11,11 +11,12 @@ def poset(x, y):
 
 def to_str(pi):
     # d = ["", "1", "a", "2", "b"]
-    # d = ["", "1", "2", "3", "4"]
-    d = ["", "a_1", "a_2", "b_1", "b_2"]
+    d = ["", "1", "2", "3", "4"]
+    # d = ["", "a_1", "a_2", "b_1", "b_2"]
     s = ("+" if pi[0] > 0 else "-") + ''.join(d[x] for x in pi[1:])
     # s = ("p" if pi[0] > 0 else "n") + ''.join(d[x] for x in pi[1:])
-    return '"${}$"'.format(s)
+    # return '"${}$"'.format(s)
+    return '{}'.format(s)
 
 
 def main():

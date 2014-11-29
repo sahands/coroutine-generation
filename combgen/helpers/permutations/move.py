@@ -10,6 +10,8 @@ def move(pi, inv, x, d, poset=None):
     # inv as pi's inverse.  If a poset is given, x is only moved if pi will
     # continue to be a linear extension of the poset with x moved. True is
     # returned if move is successful.
+    if inv[x] + d >= len(pi) or inv[x] + d < 1:
+        return False
     y = pi[inv[x] + d]
     if poset and ((d == LEFT and poset(y, x)) or (d == RIGHT and poset(x, y))):
         return False
