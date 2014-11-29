@@ -19,10 +19,7 @@ def pruesse_ruskey_local(poset, pi, inv, a, b):
                 yield MOVED
             if mra > 0:
                 yield SWITCH_SIGN
-                if mrb % 2 == 1:
-                    mla = mra - 1
-                else:
-                    mla = mra + 1
+                mla = mra + (1 if mrb % 2 else -1)  # a left moves
                 for __ in range(mla):
                     move(pi, inv, a, LEFT)
                     yield MOVED

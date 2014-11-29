@@ -1,3 +1,5 @@
+from .local import DONE, SWITCH_SIGN
+from .setup import setup
 from .gen_all import gen_all
 
 
@@ -19,6 +21,29 @@ def to_str(pi):
     return '{}'.format(s)
 
 
+def cyclic_test(n, poset, a_b_pairs, k):
+    lead, pi = setup(n, poset, a_b_pairs)
+    t = 0
+    print('------')
+    S = set()
+    while True:
+        s = to_str(pi)
+        S.add(s)
+        print(s)
+        result = next(lead)
+        if result == DONE:
+            t += 1
+            print('--')
+            print(len(S))
+            print('--')
+            S = set()
+            if t > k:
+                print('------')
+                return
+        if result == SWITCH_SIGN:
+            pi[0] = -pi[0]
+
+
 def main():
     n = 4
     S = set()
@@ -29,6 +54,7 @@ def main():
             print("DUPLICATE - something went wrong!")
         S.add(tuple(pi))
     print(len(S))
+    cyclic_test(n, poset, a_b_pairs, 3)
 
 
 if __name__ == '__main__':
