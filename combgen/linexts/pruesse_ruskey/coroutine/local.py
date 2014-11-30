@@ -1,7 +1,5 @@
 from combgen.helpers.permutations import move, LEFT, RIGHT
 
-MOVED = True  # Signals successful move along the a-b path
-DONE = False  # Signals end of a-b path
 SWITCH_SIGN = -1  # Signals change of sign in a-b path
 
 
@@ -13,22 +11,22 @@ def pruesse_ruskey_local(poset, pi, inv, a, b):
         mra = mrb = 0
         while move(pi, inv, b, RIGHT, extended_poset):
             mrb += 1
-            yield MOVED
+            yield True
             while move(pi, inv, a, RIGHT, extended_poset):
                 mra += 1
-                yield MOVED
+                yield True
             if mra > 0:
                 yield SWITCH_SIGN
                 mla = mra + (1 if mrb % 2 else -1)  # a left moves
                 for __ in range(mla):
                     move(pi, inv, a, LEFT)
-                    yield MOVED
+                    yield True
         if mra > 0 and mrb % 2 == 1:
             move(pi, inv, a, LEFT)
-            yield MOVED
+            yield True
         else:
             yield SWITCH_SIGN
         for __ in range(mrb):
             move(pi, inv, b, LEFT)
-            yield MOVED
-        yield DONE
+            yield True
+        yield False

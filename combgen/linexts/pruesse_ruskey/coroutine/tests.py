@@ -1,4 +1,4 @@
-from .local import DONE, SWITCH_SIGN
+from .local import SWITCH_SIGN
 from .setup import setup
 from .gen_all import gen_all
 
@@ -31,7 +31,7 @@ def cyclic_test(n, poset, a_b_pairs, k):
         S.add(s)
         print(s)
         result = next(lead)
-        if result == DONE:
+        if not result:
             t += 1
             print('--')
             print(len(S))
