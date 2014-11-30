@@ -3,6 +3,7 @@ from .setup import setup
 from .gen_all import gen_all
 
 
+n = 4
 a_b_pairs = [(1, 2), (3, 4)]
 
 
@@ -12,12 +13,8 @@ def poset(x, y):
 
 
 def to_str(pi):
-    # d = ["", "1", "a", "2", "b"]
     d = ["", "1", "2", "3", "4"]
-    # d = ["", "a_1", "a_2", "b_1", "b_2"]
     s = ("+" if pi[0] > 0 else "-") + ''.join(d[x] for x in pi[1:])
-    # s = ("p" if pi[0] > 0 else "n") + ''.join(d[x] for x in pi[1:])
-    # return '"${}$"'.format(s)
     return '{}'.format(s)
 
 
@@ -44,8 +41,7 @@ def cyclic_test(n, poset, a_b_pairs, k):
             pi[0] = -pi[0]
 
 
-def main():
-    n = 4
+def gen_all_test():
     S = set()
     for pi in gen_all(n, poset, a_b_pairs):
         s = to_str(pi)
@@ -54,6 +50,10 @@ def main():
             print("DUPLICATE - something went wrong!")
         S.add(tuple(pi))
     print(len(S))
+
+
+def main():
+    gen_all_test()
     cyclic_test(n, poset, a_b_pairs, 3)
 
 
