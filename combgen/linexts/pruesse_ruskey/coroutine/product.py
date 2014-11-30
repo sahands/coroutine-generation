@@ -17,7 +17,6 @@ def pruesse_ruskey_product(poset, pi, inv, X, a, b):
             if result is SWITCH_SIGN:
                 transpose(pi, inv, a, b)
                 Y_ab, Y_ba = Y_ba, Y_ab
-                a, b = b, a
             yield True
             for result in Y_ab:
                 if not result:
