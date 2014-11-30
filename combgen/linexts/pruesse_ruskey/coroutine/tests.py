@@ -1,6 +1,7 @@
 from .local import SWITCH_SIGN
 from .setup import setup
 from .gen_all import gen_all
+from .gen_all_no_sign import gen_all_no_sign
 
 
 n = 4
@@ -52,8 +53,20 @@ def gen_all_test():
     print(len(S))
 
 
+def gen_all_no_sign_test():
+    S = set()
+    for pi in gen_all_no_sign(n, poset, a_b_pairs):
+        s = ''.join(str(x) for x in pi)
+        print(s)
+        if s in S:
+            print("DUPLICATE - something went wrong!")
+        S.add(tuple(pi))
+    print(len(S))
+
+
 def main():
     gen_all_test()
+    gen_all_no_sign_test()
     cyclic_test(n, poset, a_b_pairs, 3)
 
 
