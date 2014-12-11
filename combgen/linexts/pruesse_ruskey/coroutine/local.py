@@ -9,15 +9,18 @@ def pruesse_ruskey_local(poset, pi, inv, a, b):
 
     while True:
         mra = mrb = 0
+        typical = False
         while move(pi, inv, b, RIGHT, extended_poset):
             mrb += 1
             yield True
+            mra = 0
             while move(pi, inv, a, RIGHT, extended_poset):
+                typical = True
                 mra += 1
                 yield True
-            if mra > 0:
+            if typical:
                 yield SWITCH_SIGN
-                mla = mra + (1 if mrb % 2 else -1)  # a left moves
+                mla = mra + (-1 if mrb % 2 else 1)  # a left moves
                 for __ in range(mla):
                     move(pi, inv, a, LEFT)
                     yield True
