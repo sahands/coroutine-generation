@@ -8,7 +8,7 @@ def pruesse_ruskey_local(poset, pi, inv, a, b):
         return (x, y) == (a, b) or poset(x, y)
 
     while True:
-        mra = mrb = 0
+        mrb = 0
         typical = False
         while move(pi, inv, b, RIGHT, extended_poset):
             mrb += 1
