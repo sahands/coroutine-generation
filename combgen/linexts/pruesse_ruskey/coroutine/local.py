@@ -24,7 +24,7 @@ def pruesse_ruskey_local(poset, pi, inv, a, b):
                 for __ in range(mla):
                     move(pi, inv, a, LEFT)
                     yield True
-        if mra > 0 and mrb % 2 == 1:
+        if typical and mrb % 2 == 1:
             move(pi, inv, a, LEFT)
             yield True
         else:
